@@ -478,11 +478,7 @@ function PureModelSelectorCompact({
 
   // Provider display names
   const providerNames: Record<string, string> = {
-    anthropic: "Anthropic",
     openai: "OpenAI",
-    google: "Google",
-    xai: "xAI",
-    reasoning: "Reasoning",
   };
 
   return (
@@ -503,7 +499,9 @@ function PureModelSelectorCompact({
                 key={providerKey}
               >
                 {providerModels.map((model) => {
-                  const logoProvider = model.id.split("/")[0];
+                  const logoProvider = model.id.includes("/")
+                    ? model.id.split("/")[0]
+                    : "openai";
                   return (
                     <ModelSelectorItem
                       key={model.id}

@@ -9,12 +9,22 @@ const TTL_SECONDS = 60 * 60;
 let client: ReturnType<typeof createClient> | null = null;
 
 function getClient() {
-  if (!client && process.env.REDIS_URL) {
-    client = createClient({ url: process.env.REDIS_URL });
-    client.on("error", () => undefined);
-    client.connect().catch(() => {
+  const redisUrl = process.env.REDIS_URL?.trim();
+
+  if (!client && redisUrl) {
+    try {
+      const normalizedRedisUrl = /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(redisUrl)
+        ? redisUrl
+        : `redis://${redisUrl}`;
+
+      client = createClient({ url: normalizedRedisUrl });
+      client.on("error", () => undefined);
+      client.connect().catch(() => {
+        client = null;
+      });
+    } catch (_) {
       client = null;
-    });
+    }
   }
   return client;
 }

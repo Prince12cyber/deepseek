@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.15",
+    "@ai-sdk/openai": "^3.0.41",
     "@ai-sdk/provider": "^3.0.3",
     "@ai-sdk/react": "3.0.39",
     "@codemirror/lang-javascript": "^6.2.2",
@@ -73,6 +74,7 @@
     "next": "16.0.10",
     "next-auth": "5.0.0-beta.25",
     "next-themes": "^0.3.0",
+    "openai": "^6.32.0",
     "orderedmap": "^2.1.1",
     "papaparse": "^5.5.2",
     "postgres": "^3.4.4",

@@ -79,6 +79,32 @@ export async function createGuestUser() {
   }
 }
 
+export async function getOrCreateOAuthUser(email: string) {
+  try {
+    const [existingUser] = await db
+      .select({ id: user.id, email: user.email })
+      .from(user)
+      .where(eq(user.email, email))
+      .limit(1);
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    const [createdUser] = await db
+      .insert(user)
+      .values({ email, password: null })
+      .returning({ id: user.id, email: user.email });
+
+    return createdUser;
+  } catch (_error) {
+    throw new ChatbotError(
+      "bad_request:database",
+      "Failed to get or create OAuth user"
+    );
+  }
+}
+
 export async function saveChat({
   id,
   userId,

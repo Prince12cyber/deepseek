@@ -1,5 +1,5 @@
-// Curated list of top models from Vercel AI Gateway
-export const DEFAULT_CHAT_MODEL = "openai/gpt-4.1-mini";
+// Curated list of OpenAI models
+export const DEFAULT_CHAT_MODEL = "gpt-5.4-nano";
 
 export type ChatModel = {
   id: string;
@@ -8,64 +8,89 @@ export type ChatModel = {
   description: string;
 };
 
+export function normalizeModelId(modelId: string) {
+  return modelId.startsWith("openai/") ? modelId.slice("openai/".length) : modelId;
+}
+
 export const chatModels: ChatModel[] = [
-  // Anthropic
   {
-    id: "anthropic/claude-haiku-4.5",
-    name: "Claude Haiku 4.5",
-    provider: "anthropic",
-    description: "Fast and affordable, great for everyday tasks",
+    id: "gpt-5.4",
+    name: "GPT-5.4",
+    provider: "openai",
+    description: "Most capable OpenAI model for complex reasoning",
   },
-  // OpenAI
   {
-    id: "openai/gpt-4.1-mini",
+    id: "gpt-5.4-mini",
+    name: "GPT-5.4 Mini",
+    provider: "openai",
+    description: "Strong for agentic tasks, coding and computer use",
+  },
+  {
+    id: "gpt-5.4-nano",
+    name: "GPT-5.4 Nano",
+    provider: "openai",
+    description: "High throughput, ideal for classification and instruction tasks",
+  },
+  {
+    id: "gpt-5.2",
+    name: "GPT-5.2",
+    provider: "openai",
+    description: "Advanced reasoning and problem-solving",
+  },
+  {
+    id: "gpt-5-mini",
+    name: "GPT-5 Mini",
+    provider: "openai",
+    description: "Fast and capable for most tasks",
+  },
+  {
+    id: "gpt-4.1",
+    name: "GPT-4.1",
+    provider: "openai",
+    description: "Powerful for complex multi-step tasks",
+  },
+  {
+    id: "gpt-4.1-mini",
     name: "GPT-4.1 Mini",
     provider: "openai",
     description: "Fast and cost-effective for simple tasks",
   },
   {
-    id: "openai/gpt-5-mini",
-    name: "GPT-5 Mini",
+    id: "gpt-4o",
+    name: "GPT-4o",
     provider: "openai",
-    description: "Most capable OpenAI model",
-  },
-  // Google
-  {
-    id: "google/gemini-2.5-flash-lite",
-    name: "Gemini 2.5 Flash Lite",
-    provider: "google",
-    description: "Ultra fast and affordable",
+    description: "Multimodal model with vision and audio support",
   },
   {
-    id: "google/gemini-3-pro-preview",
-    name: "Gemini 3 Pro",
-    provider: "google",
-    description: "Most capable Google model",
-  },
-  // xAI
-  {
-    id: "xai/grok-4.1-fast-non-reasoning",
-    name: "Grok 4.1 Fast",
-    provider: "xai",
-    description: "Fast with 30K context",
-  },
-  // Reasoning models (extended thinking)
-  {
-    id: "anthropic/claude-3.7-sonnet-thinking",
-    name: "Claude 3.7 Sonnet",
-    provider: "reasoning",
-    description: "Extended thinking for complex problems",
+    id: "gpt-4o-mini",
+    name: "GPT-4o Mini",
+    provider: "openai",
+    description: "Fast and affordable multimodal",
   },
   {
-    id: "xai/grok-code-fast-1-thinking",
-    name: "Grok Code Fast",
-    provider: "reasoning",
-    description: "Reasoning optimized for code",
+    id: "o4-mini",
+    name: "o4 Mini",
+    provider: "openai",
+    description: "Optimized for coding and reasoning",
+  },
+  {
+    id: "o3-mini",
+    name: "o3 Mini",
+    provider: "openai",
+    description: "Reasoning model for complex problems",
+  },
+  {
+    id: "gpt-3.5-turbo",
+    name: "GPT-3.5 Turbo",
+    provider: "openai",
+    description: "Fast and economical for simple tasks",
   },
 ];
 
 // Group models by provider for UI
-export const allowedModelIds = new Set(chatModels.map((m) => m.id));
+export const allowedModelIds = new Set(
+  chatModels.map((m) => normalizeModelId(m.id))
+);
 
 export const modelsByProvider = chatModels.reduce(
   (acc, model) => {

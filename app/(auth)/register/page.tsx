@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useActionState, useEffect, useState } from "react";
 import { AuthForm } from "@/components/auth-form";
+import { LogoGoogle } from "@/components/icons";
 import { SubmitButton } from "@/components/submit-button";
 import { toast } from "@/components/toast";
+import { Button } from "@/components/ui/button";
 import { type RegisterActionState, register } from "../actions";
 
 export default function Page() {
@@ -57,6 +59,17 @@ export default function Page() {
           <p className="text-gray-500 text-sm dark:text-zinc-400">
             Create an account with your email and password
           </p>
+        </div>
+        <div className="px-4 sm:px-16">
+          <Button
+            className="w-full"
+            onClick={() => signIn("google", { redirectTo: "/" })}
+            type="button"
+            variant="outline"
+          >
+            <LogoGoogle size={16} />
+            Continue with Google
+          </Button>
         </div>
         <AuthForm action={handleSubmit} defaultEmail={email}>
           <SubmitButton isSuccessful={isSuccessful}>Sign Up</SubmitButton>

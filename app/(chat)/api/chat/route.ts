@@ -12,7 +12,7 @@ import { after } from "next/server";
 import { createResumableStreamContext } from "resumable-stream";
 import { auth, type UserType } from "@/app/(auth)/auth";
 import { entitlementsByUserType } from "@/lib/ai/entitlements";
-import { allowedModelIds } from "@/lib/ai/models";
+import { allowedModelIds, normalizeModelId } from "@/lib/ai/models";
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
 import { getLanguageModel } from "@/lib/ai/providers";
 import { createDocument } from "@/lib/ai/tools/create-document";
@@ -64,6 +64,7 @@ export async function POST(request: Request) {
   try {
     const { id, message, messages, selectedChatModel, selectedVisibilityType } =
       requestBody;
+    const normalizedSelectedChatModel = normalizeModelId(selectedChatModel);
 
     const [botResult, session] = await Promise.all([checkBotId(), auth()]);
 
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
       return new ChatbotError("unauthorized:chat").toResponse();
     }
 
-    if (!allowedModelIds.has(selectedChatModel)) {
+    if (!allowedModelIds.has(normalizedSelectedChatModel)) {
       return new ChatbotError("bad_request:api").toResponse();
     }
 
@@ -144,9 +145,9 @@ export async function POST(request: Request) {
     }
 
     const isReasoningModel =
-      selectedChatModel.endsWith("-thinking") ||
-      (selectedChatModel.includes("reasoning") &&
-        !selectedChatModel.includes("non-reasoning"));
+      normalizedSelectedChatModel.endsWith("-thinking") ||
+      (normalizedSelectedChatModel.includes("reasoning") &&
+        !normalizedSelectedChatModel.includes("non-reasoning"));
 
     const modelMessages = await convertToModelMessages(uiMessages);
 
@@ -154,8 +155,11 @@ export async function POST(request: Request) {
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
       execute: async ({ writer: dataStream }) => {
         const result = streamText({
-          model: getLanguageModel(selectedChatModel),
-          system: systemPrompt({ selectedChatModel, requestHints }),
+          model: getLanguageModel(normalizedSelectedChatModel),
+          system: systemPrompt({
+            selectedChatModel: normalizedSelectedChatModel,
+            requestHints,
+          }),
           messages: modelMessages,
           stopWhen: stepCountIs(5),
           experimental_activeTools: isReasoningModel
