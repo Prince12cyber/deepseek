@@ -9,7 +9,9 @@ export type ChatModel = {
 };
 
 export function normalizeModelId(modelId: string) {
-  return modelId.startsWith("openai/") ? modelId.slice("openai/".length) : modelId;
+  return modelId.startsWith("openai/")
+    ? modelId.slice("openai/".length)
+    : modelId;
 }
 
 export const chatModels: ChatModel[] = [
@@ -29,7 +31,8 @@ export const chatModels: ChatModel[] = [
     id: "gpt-5.4-nano",
     name: "GPT-5.4 Nano",
     provider: "openai",
-    description: "High throughput, ideal for classification and instruction tasks",
+    description:
+      "High throughput, ideal for classification and instruction tasks",
   },
   {
     id: "gpt-5.2",

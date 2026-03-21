@@ -3,7 +3,7 @@
 import type { UseChatHelpers } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import equal from "fast-deep-equal";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, GlobeIcon } from "lucide-react";
 import {
   type ChangeEvent,
   type Dispatch,
@@ -68,6 +68,8 @@ function PureMultimodalInput({
   selectedVisibilityType,
   selectedModelId,
   onModelChange,
+  webSearchEnabled,
+  setWebSearchEnabled,
 }: {
   chatId: string;
   input: string;
@@ -83,6 +85,8 @@ function PureMultimodalInput({
   selectedVisibilityType: VisibilityType;
   selectedModelId: string;
   onModelChange?: (modelId: string) => void;
+  webSearchEnabled?: boolean;
+  setWebSearchEnabled?: Dispatch<SetStateAction<boolean>>;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
@@ -139,6 +143,15 @@ function PureMultimodalInput({
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
+
+    // Auto-enable web search for specific keywords
+    if (setWebSearchEnabled) {
+      const keywords = ["today", "latest", "news", "price", "current", "weather"];
+      const lowercaseInput = event.target.value.toLowerCase();
+      if (keywords.some((keyword) => lowercaseInput.includes(keyword)) && !webSearchEnabled) {
+        setWebSearchEnabled(true);
+      }
+    }
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -388,6 +401,10 @@ function PureMultimodalInput({
               onModelChange={onModelChange}
               selectedModelId={selectedModelId}
             />
+            <WebSearchButton
+              setWebSearchEnabled={setWebSearchEnabled}
+              webSearchEnabled={webSearchEnabled}
+            />
           </PromptInputTools>
 
           {status === "submitted" ? (
@@ -424,6 +441,9 @@ export const MultimodalInput = memo(
       return false;
     }
     if (prevProps.selectedModelId !== nextProps.selectedModelId) {
+      return false;
+    }
+    if (prevProps.webSearchEnabled !== nextProps.webSearchEnabled) {
       return false;
     }
 
@@ -554,3 +574,43 @@ function PureStopButton({
 }
 
 const StopButton = memo(PureStopButton);
+
+function PureWebSearchButton({
+  webSearchEnabled,
+  setWebSearchEnabled,
+}: {
+  webSearchEnabled?: boolean;
+  setWebSearchEnabled?: Dispatch<SetStateAction<boolean>>;
+}) {
+  return (
+    <Button
+      className={cn(
+        "relative flex flex-row items-center gap-2 px-3 py-1 h-8 rounded-lg transition-all duration-200",
+        webSearchEnabled
+          ? "bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20"
+          : "text-muted-foreground hover:bg-accent border border-transparent"
+      )}
+      onClick={() => setWebSearchEnabled?.(!webSearchEnabled)}
+      type="button"
+      variant="ghost"
+    >
+      <GlobeIcon
+        className={cn(
+          "size-4 transition-transform duration-300",
+          webSearchEnabled && "rotate-12"
+        )}
+      />
+      <span className="text-xs font-medium">
+        {webSearchEnabled ? "Search ON" : "Search"}
+      </span>
+      {webSearchEnabled && (
+        <span className="absolute -top-1 -right-1 flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+        </span>
+      )}
+    </Button>
+  );
+}
+
+const WebSearchButton = memo(PureWebSearchButton);

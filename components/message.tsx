@@ -1,6 +1,6 @@
 "use client";
 import type { UseChatHelpers } from "@ai-sdk/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import { cn, sanitizeText } from "@/lib/utils";
@@ -22,6 +22,8 @@ import { MessageEditor } from "./message-editor";
 import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
 import { Weather } from "./weather";
+import { SearchIndicator } from "./search-indicator";
+import { useSearchResults } from "@/hooks/use-search-results";
 
 const PurePreviewMessage = ({
   addToolApprovalResponse,
@@ -51,6 +53,30 @@ const PurePreviewMessage = ({
   );
 
   useDataStream();
+
+  const { results, claimPendingResults, openSidebar } = useSearchResults(message.id);
+
+  useEffect(() => {
+    if (message.role === "assistant" && results.length === 0) {
+      claimPendingResults();
+    }
+  }, [message.role, message.id, results.length, claimPendingResults]);
+
+  useEffect(() => {
+    const handleCitationClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === "A" && target.getAttribute("href")?.startsWith("#search-")) {
+        e.preventDefault();
+        const index = target.getAttribute("href")?.split("-")[1];
+        if (index) {
+          openSidebar();
+        }
+      }
+    };
+
+    window.addEventListener("click", handleCitationClick);
+    return () => window.removeEventListener("click", handleCitationClick);
+  }, [openSidebar]);
 
   return (
     <div
@@ -104,6 +130,10 @@ const PurePreviewMessage = ({
             </div>
           )}
 
+          {message.role === "assistant" && results.length > 0 && (
+            <SearchIndicator messageId={message.id} />
+          )}
+
           {message.parts?.map((part, index) => {
             const { type } = part;
             const key = `message-${message.id}-part-${index}`;
@@ -141,7 +171,11 @@ const PurePreviewMessage = ({
                           : undefined
                       }
                     >
-                      <Response>{sanitizeText(part.text)}</Response>
+                      <Response>
+                        {message.role === "assistant" 
+                          ? sanitizeText(part.text).replace(/\[(\d+)\]/g, "[$1](#search-$1)")
+                          : sanitizeText(part.text)}
+                      </Response>
                     </MessageContent>
                   </div>
                 );

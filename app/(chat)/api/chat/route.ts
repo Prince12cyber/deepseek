@@ -15,6 +15,7 @@ import { entitlementsByUserType } from "@/lib/ai/entitlements";
 import { allowedModelIds, normalizeModelId } from "@/lib/ai/models";
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
 import { getLanguageModel } from "@/lib/ai/providers";
+import { searchWithTavily } from "@/lib/ai/search";
 import { createDocument } from "@/lib/ai/tools/create-document";
 import { getWeather } from "@/lib/ai/tools/get-weather";
 import { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { id, message, messages, selectedChatModel, selectedVisibilityType } =
+    const { id, message, messages, selectedChatModel, selectedVisibilityType, webSearch } =
       requestBody;
     const normalizedSelectedChatModel = normalizeModelId(selectedChatModel);
 
@@ -151,14 +152,41 @@ export async function POST(request: Request) {
 
     const modelMessages = await convertToModelMessages(uiMessages);
 
+    let searchContext = "";
+    let searchResults: any[] = [];
+    
+    if (webSearch && message?.role === "user") {
+      const userQuery = message.parts.find((p) => p.type === "text")?.text;
+      
+      if (userQuery) {
+        try {
+          const searchResponse = await searchWithTavily(userQuery);
+          searchContext = searchResponse.context;
+          searchResults = searchResponse.results;
+        } catch (error) {
+          console.error("Search failed:", error);
+        }
+      }
+    }
+
+
     const stream = createUIMessageStream({
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,
       execute: async ({ writer: dataStream }) => {
+        if (searchResults.length > 0) {
+          dataStream.write({
+            type: "data-id",
+            data: `search-results:${JSON.stringify(searchResults)}`,
+            transient: true,
+          });
+        }
+
         const result = streamText({
           model: getLanguageModel(normalizedSelectedChatModel),
           system: systemPrompt({
             selectedChatModel: normalizedSelectedChatModel,
             requestHints,
+            searchContext,
           }),
           messages: modelMessages,
           stopWhen: stepCountIs(5),

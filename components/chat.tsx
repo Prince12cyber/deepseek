@@ -28,6 +28,7 @@ import { Artifact } from "./artifact";
 import { useDataStream } from "./data-stream-provider";
 import { Messages } from "./messages";
 import { MultimodalInput } from "./multimodal-input";
+import { SearchResultsSidebar } from "./search-results-sidebar";
 import { getChatHistoryPaginationKey } from "./sidebar-history";
 import { toast } from "./toast";
 import type { VisibilityType } from "./visibility-selector";
@@ -71,11 +72,17 @@ export function Chat({
   const [input, setInput] = useState<string>("");
   const [showCreditCardAlert, setShowCreditCardAlert] = useState(false);
   const [currentModelId, setCurrentModelId] = useState(initialChatModel);
+  const [webSearchEnabled, setWebSearchEnabled] = useState(false);
   const currentModelIdRef = useRef(currentModelId);
+  const webSearchEnabledRef = useRef(webSearchEnabled);
 
   useEffect(() => {
     currentModelIdRef.current = currentModelId;
   }, [currentModelId]);
+
+  useEffect(() => {
+    webSearchEnabledRef.current = webSearchEnabled;
+  }, [webSearchEnabled]);
 
   const {
     messages,
@@ -126,6 +133,7 @@ export function Chat({
               : { message: lastMessage }),
             selectedChatModel: currentModelIdRef.current,
             selectedVisibilityType: visibilityType,
+            webSearch: webSearchEnabledRef.current,
             ...request.body,
           },
         };
@@ -224,6 +232,8 @@ export function Chat({
               setMessages={setMessages}
               status={status}
               stop={stop}
+              webSearchEnabled={webSearchEnabled}
+              setWebSearchEnabled={setWebSearchEnabled}
             />
           )}
         </div>
@@ -246,6 +256,8 @@ export function Chat({
         status={status}
         stop={stop}
         votes={votes}
+        webSearchEnabled={webSearchEnabled}
+        setWebSearchEnabled={setWebSearchEnabled}
       />
 
       <AlertDialog
@@ -277,6 +289,7 @@ export function Chat({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <SearchResultsSidebar />
     </>
   );
 }

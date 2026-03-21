@@ -59,21 +59,39 @@ About the origin of user's request:
 export const systemPrompt = ({
   selectedChatModel,
   requestHints,
+  searchContext,
 }: {
   selectedChatModel: string;
   requestHints: RequestHints;
+  searchContext?: string;
 }) => {
   const requestPrompt = getRequestPromptFromHints(requestHints);
+
+  const searchPrompt = searchContext
+    ? `
+You are an AI assistant with access to real-time web search results.
+
+Use the following search results to answer the question:
+
+${searchContext}
+
+Instructions:
+- Provide accurate, up-to-date answers based on the search results.
+- Cite sources using [1], [2], etc., corresponding to the results provided.
+- If the search results aren't relevant, still provide your best answer but mention that current search results didn't help.
+- Do not hallucinate URLs or facts not present in the results if you are unsure.
+`
+    : "";
 
   // reasoning models don't need artifacts prompt (they can't use tools)
   if (
     selectedChatModel.includes("reasoning") ||
     selectedChatModel.includes("thinking")
   ) {
-    return `${regularPrompt}\n\n${requestPrompt}`;
+    return `${regularPrompt}\n\n${requestPrompt}${searchPrompt}`;
   }
 
-  return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+  return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}${searchPrompt}`;
 };
 
 export const codePrompt = `

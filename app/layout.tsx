@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   title: "Deep AI",
   description: "Deep AI - AI-powered chatbot built with Next.js and the AI SDK.",
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/apple-icon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 

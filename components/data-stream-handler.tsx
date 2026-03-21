@@ -7,10 +7,12 @@ import { initialArtifactData, useArtifact } from "@/hooks/use-artifact";
 import { artifactDefinitions } from "./artifact";
 import { useDataStream } from "./data-stream-provider";
 import { getChatHistoryPaginationKey } from "./sidebar-history";
+import { useSearchResultsStore } from "@/hooks/use-search-results";
 
 export function DataStreamHandler() {
   const { dataStream, setDataStream } = useDataStream();
   const { mutate } = useSWRConfig();
+  const setPendingResults = useSearchResultsStore((s) => s.setPendingResults);
 
   const { artifact, setArtifact, setMetadata } = useArtifact();
 
@@ -48,6 +50,16 @@ export function DataStreamHandler() {
 
         switch (delta.type) {
           case "data-id":
+            if (delta.data.startsWith("search-results:")) {
+              const resultsJson = delta.data.substring("search-results:".length);
+              try {
+                const results = JSON.parse(resultsJson);
+                setPendingResults(results);
+              } catch (e) {
+                console.error("Failed to parse search results", e);
+              }
+              return draftArtifact;
+            }
             return {
               ...draftArtifact,
               documentId: delta.data,

@@ -69,6 +69,8 @@ function PureArtifact({
   isReadonly,
   selectedVisibilityType,
   selectedModelId,
+  webSearchEnabled,
+  setWebSearchEnabled,
 }: {
   addToolApprovalResponse: UseChatHelpers<ChatMessage>["addToolApprovalResponse"];
   chatId: string;
@@ -86,6 +88,8 @@ function PureArtifact({
   isReadonly: boolean;
   selectedVisibilityType: VisibilityType;
   selectedModelId: string;
+  webSearchEnabled?: boolean;
+  setWebSearchEnabled?: Dispatch<SetStateAction<boolean>>;
 }) {
   const { artifact, setArtifact, metadata, setMetadata } = useArtifact();
 
@@ -349,6 +353,8 @@ function PureArtifact({
                     setMessages={setMessages}
                     status={status}
                     stop={stop}
+                    webSearchEnabled={webSearchEnabled}
+                    setWebSearchEnabled={setWebSearchEnabled}
                   />
                 </div>
               </div>
@@ -527,6 +533,10 @@ export const Artifact = memo(PureArtifact, (prevProps, nextProps) => {
     return false;
   }
   if (prevProps.selectedVisibilityType !== nextProps.selectedVisibilityType) {
+    return false;
+  }
+
+  if (prevProps.webSearchEnabled !== nextProps.webSearchEnabled) {
     return false;
   }
 

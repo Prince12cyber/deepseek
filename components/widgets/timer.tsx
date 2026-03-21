@@ -121,7 +121,7 @@ const timerWidget: WidgetDefinition<
           clearInterval(intervalId);
         }
       };
-    }, [isRunning, mode]);
+    }, [isRunning]);
 
     return (
       <div className="space-y-4">
