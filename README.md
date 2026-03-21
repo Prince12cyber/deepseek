@@ -1,71 +1,153 @@
-<a href="#">
-  <img alt="Deep AI" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Deep AI</h1>
-</a>
+<div align="center">
+  <h1>🌌 Deep AI</h1>
+  <p><strong>Next-Generation AI Interface & Workspace Built with Next.js</strong></p>
+  <p>
+    <a href="https://nextjs.org"><img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" /></a>
+    <a href="https://reactjs.org"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+    <a href="https://tailwindcss.com"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+    <a href="https://pnpm.io"><img src="https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=white" alt="pnpm" /></a>
+  </p>
+</div>
 
-<p align="center">
-    Deep AI is a free, open-source chatbot application built with Next.js and the AI SDK for powerful AI-powered conversations.
-</p>
+---
 
-<p align="center">
-  <a href="https://chatbot.dev"><strong>Read Docs</strong></a> ·
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
-</p>
-<br/>
+## 📖 Table of Contents
+- [About the Project](#about-the-project)
+- [✨ Features](#-features)
+- [🛠 Tech Stack](#-tech-stack)
+- [🚀 Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Variables](#environment-variables)
+  - [Database Setup](#database-setup)
+  - [Development](#development)
+- [📦 Project Structure](#-project-structure)
+- [📜 Available Scripts](#-available-scripts)
+- [📄 License](#-license)
 
-## Features
+---
 
-- [Next.js](https://nextjs.org) App Router
-  - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://ai-sdk.dev/docs/introduction)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports OpenAI, Anthropic, Google, xAI, and other model providers via AI Gateway
-- [shadcn/ui](https://ui.shadcn.com)
-  - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+## About the Project
+**Deep AI** is a highly interactive, modern web application designed as a fully-featured AI interface. Built with performance and developer experience in mind, it utilizes the latest capabilities of **Next.js 16** and the **Vercel AI SDK** to provide seamless AI model streaming, rich text editing, and intelligent workflow management. 
 
-## Model Providers
+Whether you are editing code, chatting with an AI agent, or organizing complex workflows, Deep AI offers an aesthetic and highly responsive environment powered by the latest modern web technologies.
 
-This template uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to access multiple AI models through a unified interface. The default model is [OpenAI](https://openai.com) GPT-4.1 Mini, with support for Anthropic, Google, and xAI models.
+---
 
-### AI Gateway Authentication
+## ✨ Features
+- **🤖 Intelligent Chat & AI Integration**: First-class support for OpenAI and other models via `@ai-sdk`.
+- **📝 Advanced Rich Text Editor**: Integrated ProseMirror for robust document editing and formatting.
+- **⚡ Real-time Data Mapping**: Ultra-fast state management with Zustand and SWR.
+- **🎨 Beautiful UI & Animations**: Built using Tailwind CSS, Radix UI primitives, and Framer Motion for buttery smooth visuals.
+- **🔒 Authentication Ready**: Secure user authentication workflows powered by NextAuth.js.
+- **🗄️ Robust Database & ORM**: PostgreSQL integration made simple, typed, and scalable using Drizzle ORM.
+- **🚀 Turbocharged Development**: Ultra-fast build times using Turbopack and pnpm.
 
-**For Vercel deployments**: Authentication is handled automatically via OIDC tokens.
+---
 
-**For non-Vercel deployments**: You need to provide an AI Gateway API key by setting the `AI_GATEWAY_API_KEY` environment variable in your `.env.local` file.
+## 🛠 Tech Stack
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS, Framer Motion, Radix UI
+- **AI Integration:** Vercel AI SDK
+- **Database ORM:** Drizzle ORM
+- **Database Provider:** PostgreSQL
+- **Caching/State:** Redis, Zustand, SWR
+- **Editor:** ProseMirror, CodeMirror
+- **Authentication:** NextAuth.js
+- **Package Manager:** pnpm
 
-With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to direct LLM providers like [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
+---
 
-## Deploy Your Own
+## 🚀 Getting Started
 
-You can deploy your own version of Deep AI to Vercel with one click:
+Follow these instructions to set up the project locally on your machine.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/templates/next.js/chatbot)
+### Prerequisites
+Before you begin, ensure you have the following installed:
+- Node.js (v18 or higher recommended)
+- [pnpm](https://pnpm.io/) (v9+)
+- PostgreSQL (Local or Cloud-managed like Supabase or Neon)
+- Redis Server (For caching and state)
 
-## Running locally
+### Installation
+1. Clone the repository and navigate to the project directory:
+   ```bash
+   git clone <your-repo-url>
+   cd deepseek
+   ```
+2. Install dependencies using pnpm:
+   ```bash
+   pnpm install
+   ```
 
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Deep AI. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
+### Environment Variables
+Copy the `.env.example` file to create your local environment configuration. Ensure that your database URLs, Redis configurations, and AI API keys are correctly entered.
 
 ```bash
-pnpm install
-pnpm db:migrate # Setup database or apply latest database changes
-pnpm dev
+cp .env.example .env.local
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+### Database Setup
+The app uses Drizzle ORM to map onto a PostgreSQL database. Run the following to configure the database schema:
+
+```bash
+# Push the schema state to your database
+pnpm run db:push
+
+# (Optional) Open Drizzle Studio to explore your database
+pnpm run db:studio
+```
+
+### Development
+Once everything is configured, start the Next.js development server with Turbopack:
+
+```bash
+pnpm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+
+---
+
+## 📦 Project Structure
+A brief look into how the project is organized:
+
+```
+deepseek/
+├── app/               # Next.js App Router structure (Pages, API Routes, Layouts)
+├── components/        # Reusable React components (UI elements, Layout pieces)
+├── hooks/             # Custom React hooks (e.g., use-search-results.ts)
+├── lib/               # Utility functions, Database configuraton, AI model configs
+├── public/            # Static assets like images and generic files
+├── tests/             # Playwright E2E and unit test configurations
+└── package.json       # Project dependencies and workspace scripts
+```
+
+---
+
+## 📜 Available Scripts
+
+Here are the most commonly used commands:
+
+| Command | Description |
+| ------- | ----------- |
+| `pnpm run dev` | Starts the development server with Next.js Turbopack |
+| `pnpm run build` | Builds the application for production |
+| `pnpm run start` | Starts the production server |
+| `pnpm run check` | Runs linters to identify formatting and stylistic issues |
+| `pnpm run fix` | Automatically fixes style and lint errors |
+| `pnpm run db:push` | Pushes Drizzle schema changes to your database |
+| `pnpm run db:generate`| Generates migration files for Drizzle ORM |
+| `pnpm run test`  | Runs end-to-end testing with Playwright |
+
+---
+
+## 📄 License
+This project is subject to the conditions listed in the `LICENSE` file. Open the file to review the specific legal agreements and usage rights configuration.
+
+<div align="center">
+  <br />
+  <p>Built with ❤️ by Prince12cyber.</p>
+</div>
