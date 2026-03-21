@@ -1,4 +1,4 @@
-# Active Context: Chatbot
+# Active Context: Deep AI
 
 ## Current Work Focus
 
@@ -21,7 +21,7 @@
 ## Project Status
 
 ### Current State
-- **Repository**: Vercel Chatbot Template v3.1.0
+- **Repository**: Deep AI v3.1.0
 - **Framework**: Next.js 16.0.10 with React 19.0.1
 - **Language**: TypeScript 5.6.3
 - **Package Manager**: pnpm 9.12.3

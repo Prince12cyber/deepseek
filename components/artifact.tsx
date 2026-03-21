@@ -116,6 +116,7 @@ function PureArtifact({
         setArtifact((currentArtifact) => ({
           ...currentArtifact,
           content: mostRecentDocument.content ?? "",
+          isVisible: true,
         }));
       }
     }
@@ -461,6 +462,7 @@ function PureArtifact({
 
             <div className="h-full max-w-full! items-center overflow-y-scroll bg-background dark:bg-muted">
               <artifactDefinition.content
+                key={artifact.documentId}
                 content={
                   isCurrentVersion
                     ? artifact.content

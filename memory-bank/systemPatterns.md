@@ -1,4 +1,4 @@
-# System Patterns: Chatbot
+# System Patterns: Deep AI
 
 ## System Architecture
 

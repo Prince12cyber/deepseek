@@ -1,7 +1,7 @@
-# Project Brief: Chatbot
+# Project Brief: Deep AI
 
 ## Project Overview
-Chatbot is a free, open-source template built with Next.js and the AI SDK for building powerful chatbot applications. It's developed by Vercel and serves as a production-ready template for AI-powered chat interfaces.
+Deep AI is a free, open-source application built with Next.js and the AI SDK for powerful AI-powered conversations. It's developed by Vercel and serves as a production-ready template for AI-powered chat interfaces.
 
 ## Core Requirements
 

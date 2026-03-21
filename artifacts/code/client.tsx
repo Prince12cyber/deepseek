@@ -82,8 +82,7 @@ export const codeArtifact = new Artifact<"code", Metadata>({
         content: streamPart.data,
         isVisible:
           draftArtifact.status === "streaming" &&
-          draftArtifact.content.length > 300 &&
-          draftArtifact.content.length < 310
+          draftArtifact.content.length >= 300
             ? true
             : draftArtifact.isVisible,
         status: "streaming",

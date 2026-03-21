@@ -1,4 +1,4 @@
-# Product Context: Chatbot
+# Product Context: Deep AI
 
 ## Why This Project Exists
 
@@ -13,7 +13,7 @@ Building a production-ready AI chatbot application requires significant effort:
 Developers often spend weeks or months building these foundations before focusing on their core business logic.
 
 ### Solution
-Chatbot provides a complete, production-ready template that solves these problems:
+Deep AI provides a complete, production-ready application that solves these problems:
 - **Unified AI Integration**: Single API to access multiple AI providers through Vercel AI Gateway
 - **Real-time Streaming**: Built-in support for streaming AI responses
 - **Modern UI**: Pre-built, accessible components with shadcn/ui

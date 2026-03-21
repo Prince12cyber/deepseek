@@ -1,4 +1,4 @@
-# Progress: Chatbot
+# Progress: Deep AI
 
 ## What Works
 
@@ -258,6 +258,6 @@
 
 ---
 
-*This progress document tracks the current state of the Chatbot project and helps maintain focus on priorities and improvements.*
+*This progress document tracks the current state of the Deep AI project and helps maintain focus on priorities and improvements.*
 
 *Last Updated: March 19, 2026, 7:25 PM IST*

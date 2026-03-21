@@ -1,4 +1,4 @@
-# Tech Context: Chatbot
+# Tech Context: Deep AI
 
 ## Technologies Used
 
@@ -323,4 +323,4 @@ import type { Chat, Message } from '@/lib/types';
 
 ---
 
-*This tech stack enables rapid development of production-ready AI chatbot applications with excellent performance, accessibility, and developer experience.*
+*This tech stack enables rapid development of production-ready AI applications with excellent performance, accessibility, and developer experience.*

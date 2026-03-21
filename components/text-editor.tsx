@@ -37,6 +37,8 @@ function PureEditor({
   onSaveContent,
   suggestions,
   status,
+  currentVersionIndex,
+  isCurrentVersion,
 }: EditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<EditorView | null>(null);
@@ -72,9 +74,7 @@ function PureEditor({
         editorRef.current = null;
       }
     };
-    // NOTE: we only want to run this effect once
-    // eslint-disable-next-line
-  }, [content]);
+  }, [currentVersionIndex]);
 
   useEffect(() => {
     if (editorRef.current) {
@@ -91,7 +91,7 @@ function PureEditor({
   }, [onSaveContent]);
 
   useEffect(() => {
-    if (editorRef.current && content) {
+    if (editorRef.current && content !== undefined) {
       const currentContent = buildContentFromDocument(
         editorRef.current.state.doc
       );
@@ -126,7 +126,7 @@ function PureEditor({
   }, [content, status]);
 
   useEffect(() => {
-    if (editorRef.current?.state.doc && content) {
+    if (editorRef.current?.state.doc && content !== undefined) {
       const projectedSuggestions = projectWithPositions(
         editorRef.current.state.doc,
         suggestions
@@ -155,8 +155,8 @@ function areEqual(prevProps: EditorProps, nextProps: EditorProps) {
     prevProps.suggestions === nextProps.suggestions &&
     prevProps.currentVersionIndex === nextProps.currentVersionIndex &&
     prevProps.isCurrentVersion === nextProps.isCurrentVersion &&
-    !(prevProps.status === "streaming" && nextProps.status === "streaming") &&
     prevProps.content === nextProps.content &&
+    prevProps.status === nextProps.status &&
     prevProps.onSaveContent === nextProps.onSaveContent
   );
 }
