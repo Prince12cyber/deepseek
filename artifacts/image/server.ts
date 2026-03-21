@@ -147,7 +147,7 @@ function generateSvgFromTitle(title: string): string {
     </defs>
     <rect width="100%" height="100%" fill="url(#bg)"/>
     ${pattern}
-    <text x="150" y="170" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" opacity="0.7">${title.substring(0, 30)}${title.length > 30 ? "..." : ""}</text>
+    <text x="150" y="170" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle" opacity="0.7">${title.slice(0, 30)}${title.length > 30 ? "..." : ""}</text>
   </svg>`;
 
   return svg;

@@ -344,7 +344,7 @@ a[href^="#search-"]:hover {
   color: var(--primary-foreground);
   border-color: var(--primary);
   transform: scale(1.15) translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dark a[href^="#search-"] {

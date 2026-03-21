@@ -4,12 +4,17 @@ import type { DefaultJWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import { DUMMY_PASSWORD } from "@/lib/constants";
-import { createGuestUser, getOrCreateOAuthUser, getUser } from "@/lib/db/queries";
+import {
+  createGuestUser,
+  getOrCreateOAuthUser,
+  getUser,
+} from "@/lib/db/queries";
 import { authConfig } from "./auth.config";
 
 export type UserType = "guest" | "regular";
 const hasGoogleOAuthCredentials =
-  Boolean(process.env.AUTH_GOOGLE_ID) && Boolean(process.env.AUTH_GOOGLE_SECRET);
+  Boolean(process.env.AUTH_GOOGLE_ID) &&
+  Boolean(process.env.AUTH_GOOGLE_SECRET);
 
 declare module "next-auth" {
   interface Session extends DefaultSession {

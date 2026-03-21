@@ -8,7 +8,8 @@ import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Deep AI",
-  description: "Deep AI - AI-powered chatbot built with Next.js and the AI SDK.",
+  description:
+    "Deep AI - AI-powered chatbot built with Next.js and the AI SDK.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

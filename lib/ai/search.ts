@@ -14,10 +14,15 @@ export interface SearchWithTavilyResponse {
   results: TavilySearchResult[];
 }
 
-const SEARCH_CACHE = new Map<string, { data: SearchWithTavilyResponse; timestamp: number }>();
+const SEARCH_CACHE = new Map<
+  string,
+  { data: SearchWithTavilyResponse; timestamp: number }
+>();
 const CACHE_TTL = 1000 * 60 * 60; // 1 hour
 
-export async function searchWithTavily(query: string): Promise<SearchWithTavilyResponse> {
+export async function searchWithTavily(
+  query: string
+): Promise<SearchWithTavilyResponse> {
   const apiKey = process.env.TAVILY_API_KEY;
   console.log("searchWithTavily - apiKey exists:", !!apiKey, "query:", query);
 
@@ -53,7 +58,7 @@ export async function searchWithTavily(query: string): Promise<SearchWithTavilyR
 
     const data: TavilySearchResponse = await response.json();
     console.log("Tavily Search Results Count:", data.results?.length ?? 0);
-    
+
     if (!data.results || data.results.length === 0) {
       return { context: "No results found.", results: [] };
     }

@@ -27,32 +27,50 @@ export const useSearchResultsStore = create<SearchResultsState>((set) => ({
       searchResults: { ...state.searchResults, [messageId]: results },
     })),
   setPendingResults: (results) => set({ pendingResults: results }),
-  claimPendingResults: (messageId) => 
+  claimPendingResults: (messageId) =>
     set((state) => {
       if (!state.pendingResults) return state;
       return {
-        searchResults: { ...state.searchResults, [messageId]: state.pendingResults },
+        searchResults: {
+          ...state.searchResults,
+          [messageId]: state.pendingResults,
+        },
         pendingResults: null,
       };
     }),
   openSidebar: (messageId) =>
     set({ isSidebarOpen: true, activeMessageId: messageId }),
   closeSidebar: () => set({ isSidebarOpen: false }),
-  clearResults: () => set({ searchResults: {}, pendingResults: null, activeMessageId: null, isSidebarOpen: false }),
+  clearResults: () =>
+    set({
+      searchResults: {},
+      pendingResults: null,
+      activeMessageId: null,
+      isSidebarOpen: false,
+    }),
 }));
 
 export function useSearchResults(messageId?: string) {
-  const { searchResults, isSidebarOpen, activeMessageId, openSidebar, closeSidebar, setSearchResults, claimPendingResults } = useSearchResultsStore();
-  
+  const {
+    searchResults,
+    isSidebarOpen,
+    activeMessageId,
+    openSidebar,
+    closeSidebar,
+    setSearchResults,
+    claimPendingResults,
+  } = useSearchResultsStore();
+
   const effectiveMessageId = messageId || activeMessageId;
-  const results = useMemo(() => 
-    effectiveMessageId ? searchResults[effectiveMessageId] || [] : [], 
+  const results = useMemo(
+    () => (effectiveMessageId ? searchResults[effectiveMessageId] || [] : []),
     [searchResults, effectiveMessageId]
   );
 
   return {
     results,
-    isSidebarOpen: isSidebarOpen && (messageId ? activeMessageId === messageId : true),
+    isSidebarOpen:
+      isSidebarOpen && (messageId ? activeMessageId === messageId : true),
     activeMessageId,
     openSidebar: (id?: string) => {
       const targetId = id || messageId;

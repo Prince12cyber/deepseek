@@ -63,8 +63,14 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { id, message, messages, selectedChatModel, selectedVisibilityType, webSearch } =
-      requestBody;
+    const {
+      id,
+      message,
+      messages,
+      selectedChatModel,
+      selectedVisibilityType,
+      webSearch,
+    } = requestBody;
     const normalizedSelectedChatModel = normalizeModelId(selectedChatModel);
 
     const [botResult, session] = await Promise.all([checkBotId(), auth()]);
@@ -154,10 +160,10 @@ export async function POST(request: Request) {
 
     let searchContext = "";
     let searchResults: any[] = [];
-    
+
     if (webSearch && message?.role === "user") {
       const userQuery = message.parts.find((p) => p.type === "text")?.text;
-      
+
       if (userQuery) {
         try {
           const searchResponse = await searchWithTavily(userQuery);
@@ -168,7 +174,6 @@ export async function POST(request: Request) {
         }
       }
     }
-
 
     const stream = createUIMessageStream({
       originalMessages: isToolApprovalFlow ? uiMessages : undefined,

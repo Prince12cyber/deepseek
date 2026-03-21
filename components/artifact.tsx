@@ -351,10 +351,10 @@ function PureArtifact({
                     setAttachments={setAttachments}
                     setInput={setInput}
                     setMessages={setMessages}
+                    setWebSearchEnabled={setWebSearchEnabled}
                     status={status}
                     stop={stop}
                     webSearchEnabled={webSearchEnabled}
-                    setWebSearchEnabled={setWebSearchEnabled}
                   />
                 </div>
               </div>
@@ -468,7 +468,6 @@ function PureArtifact({
 
             <div className="h-full max-w-full! items-center overflow-y-scroll bg-background dark:bg-muted">
               <artifactDefinition.content
-                key={artifact.documentId}
                 content={
                   isCurrentVersion
                     ? artifact.content
@@ -479,6 +478,7 @@ function PureArtifact({
                 isCurrentVersion={isCurrentVersion}
                 isInline={false}
                 isLoading={isDocumentsFetching && !artifact.content}
+                key={artifact.documentId}
                 metadata={metadata}
                 mode={mode}
                 onSaveContent={saveContent}

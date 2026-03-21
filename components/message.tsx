@@ -1,6 +1,7 @@
 "use client";
 import type { UseChatHelpers } from "@ai-sdk/react";
 import { useEffect, useState } from "react";
+import { useSearchResults } from "@/hooks/use-search-results";
 import type { Vote } from "@/lib/db/schema";
 import type { ChatMessage } from "@/lib/types";
 import { cn, sanitizeText } from "@/lib/utils";
@@ -21,9 +22,8 @@ import { MessageActions } from "./message-actions";
 import { MessageEditor } from "./message-editor";
 import { MessageReasoning } from "./message-reasoning";
 import { PreviewAttachment } from "./preview-attachment";
-import { Weather } from "./weather";
 import { SearchIndicator } from "./search-indicator";
-import { useSearchResults } from "@/hooks/use-search-results";
+import { Weather } from "./weather";
 
 const PurePreviewMessage = ({
   addToolApprovalResponse,
@@ -54,7 +54,9 @@ const PurePreviewMessage = ({
 
   useDataStream();
 
-  const { results, claimPendingResults, openSidebar } = useSearchResults(message.id);
+  const { results, claimPendingResults, openSidebar } = useSearchResults(
+    message.id
+  );
 
   useEffect(() => {
     if (message.role === "assistant" && results.length === 0) {
@@ -65,7 +67,10 @@ const PurePreviewMessage = ({
   useEffect(() => {
     const handleCitationClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === "A" && target.getAttribute("href")?.startsWith("#search-")) {
+      if (
+        target.tagName === "A" &&
+        target.getAttribute("href")?.startsWith("#search-")
+      ) {
         e.preventDefault();
         const index = target.getAttribute("href")?.split("-")[1];
         if (index) {
@@ -172,8 +177,11 @@ const PurePreviewMessage = ({
                       }
                     >
                       <Response>
-                        {message.role === "assistant" 
-                          ? sanitizeText(part.text).replace(/\[(\d+)\]/g, "[$1](#search-$1)")
+                        {message.role === "assistant"
+                          ? sanitizeText(part.text).replace(
+                              /\[(\d+)\]/g,
+                              "[$1](#search-$1)"
+                            )
                           : sanitizeText(part.text)}
                       </Response>
                     </MessageContent>

@@ -230,10 +230,10 @@ export function Chat({
               setAttachments={setAttachments}
               setInput={setInput}
               setMessages={setMessages}
+              setWebSearchEnabled={setWebSearchEnabled}
               status={status}
               stop={stop}
               webSearchEnabled={webSearchEnabled}
-              setWebSearchEnabled={setWebSearchEnabled}
             />
           )}
         </div>
@@ -253,11 +253,11 @@ export function Chat({
         setAttachments={setAttachments}
         setInput={setInput}
         setMessages={setMessages}
+        setWebSearchEnabled={setWebSearchEnabled}
         status={status}
         stop={stop}
         votes={votes}
         webSearchEnabled={webSearchEnabled}
-        setWebSearchEnabled={setWebSearchEnabled}
       />
 
       <AlertDialog

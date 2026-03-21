@@ -146,9 +146,19 @@ function PureMultimodalInput({
 
     // Auto-enable web search for specific keywords
     if (setWebSearchEnabled) {
-      const keywords = ["today", "latest", "news", "price", "current", "weather"];
+      const keywords = [
+        "today",
+        "latest",
+        "news",
+        "price",
+        "current",
+        "weather",
+      ];
       const lowercaseInput = event.target.value.toLowerCase();
-      if (keywords.some((keyword) => lowercaseInput.includes(keyword)) && !webSearchEnabled) {
+      if (
+        keywords.some((keyword) => lowercaseInput.includes(keyword)) &&
+        !webSearchEnabled
+      ) {
         setWebSearchEnabled(true);
       }
     }
