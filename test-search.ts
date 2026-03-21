@@ -9,7 +9,8 @@ async function testSearch() {
   
   try {
     const results = await searchWithTavily('What is the weather in NYC?');
-    console.log('Search Results:', results.substring(0, 100) + '...');
+    console.log('Search Results Context:', results.context.substring(0, 100) + '...');
+    console.log('Number of Results:', results.results.length);
   } catch (error) {
     console.error('Search Test Failed:', error);
   }
